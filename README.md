@@ -18,6 +18,9 @@ WebApi Project to handle stock option requests
 XUnit testing
 
 ## Configuration
+- **Prerequisites**
+  - SQLServer instance running and accesible
+
 - FinanceChat
   - Edit **appsettings.json**:
     - "*StockBotURL*": Set the URL where the StockBot (project above) listen.
