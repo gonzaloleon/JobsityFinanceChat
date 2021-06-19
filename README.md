@@ -1,10 +1,10 @@
 # Jobsity .Net Challenge
 
 Created a solution with .NET Core 3.1 Projects
-- FinanceChat: Chat Project using signalR and SQLServer. Also use .Net Identity for user authentication
-- FinanceCommon: Library with common Models throught projects
-- StockBot: WebApi Project to handle stock option requests
-- TestProject1: Some Unit testing
+- **FinanceChat**: Chat Project using signalR and SQLServer. Also use .Net Identity for user authentication
+- **FinanceCommon**: Library with common Models throught projects
+- **StockBot**: WebApi Project to handle stock option requests
+- **TestProject1**: Some Unit testing
 
 ## Configuration
 - **Prerequisites**
