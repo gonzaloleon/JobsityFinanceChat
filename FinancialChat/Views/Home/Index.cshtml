@@ -1,0 +1,42 @@
+﻿@model IEnumerable<FinancialChat.Models.Message>
+@{
+    ViewData["Title"] = "Financial Chat";
+    var username = User.Identity.Name;
+}
+
+<script src="~/js/signalRrequest.js"></script>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    @if (Model != null)
+    {
+        @foreach (var message in Model.OrderBy(r => r.MessageTime))
+        {
+            if (message.Username == username)
+            {
+
+            }
+            else
+            {
+
+            }
+            <p>[@message.MessageTime.ToString("yyyy/MM/dd HH:mm:ss")]@message.Username says: @message.Text</p>
+        }
+    }
+
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+        const username = "@ViewBag.CurrentUsername";
+    </script>
+}
+else
+{
+}
+
+<script src="~/lib/@@microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/signalRrequest.js"></script>
+<script src="~/js/chat.js"></script>  

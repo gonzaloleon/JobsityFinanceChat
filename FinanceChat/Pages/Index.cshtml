@@ -1,0 +1,89 @@
+﻿@page
+@model FinanceChat.Pages.IndexModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Models.ChatUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="container">
+        <div class="row">
+            @Html.AntiForgeryToken()
+            <div class="col-2">Message</div>
+            <div class="col-4">
+                <input asp-for="MessageText" id="MessageText" type="text" /><div id="loader" class="spinner-border" role="status"><span class="sr-only">Sending/Processing Message...</span></div>
+            </div>
+        </div><div class="row">
+            <div class="col-6">
+                <button name="Send" type="submit" id="sendBtn">Send Message</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
+        </div><div class="row">
+            <div class="col-6">
+                <ul id="ulmessages">
+                    @if (Model.messages != null)
+                    {
+                        foreach (var msg in Model.messages)
+                        {
+                            <li>[@msg.MessageTime.ToString("MM/dd/yyyy HH:mm:ss")] <strong>@msg.Username</strong> says @msg.Text</li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#loader').hide();
+            });
+
+            $(function () {
+                $("#sendBtn").click(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Index?handler=SendMessage",
+                        beforeSend: function (xhr) {
+                            $('#loader').show();
+                            $('#sendBtn').prop('disabled', true);
+                            xhr.setRequestHeader("XSRF-TOKEN",
+                                $('input:hidden[name="__RequestVerificationToken"]').val());
+                        },
+                        data: { "messageText": $("#MessageText").val() },
+                        success: function (result) {
+                            console.log(result);
+                            if (!result.ok) {
+                                alert("Error Sending message");
+                            }
+                        },
+                        failure: function (response) {
+                            alert("Failure");
+                        },
+                        error: function (response) {
+                            alert("Error");
+                        },
+                        complete: function () {
+                            $('#loader').hide();
+                            $('#sendBtn').prop('disabled', false);
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+}
+else
+{
+    <div class="container">To Chat you must be logged-in</div>
+    <div>
+        <button class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</button>
+        <button class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</button>
+    </div>
+}
