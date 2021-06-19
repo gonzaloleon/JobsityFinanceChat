@@ -22,6 +22,8 @@ XUnit testing
   - Edit **appsettings.json**:
     - "*StockBotURL*": Set the URL where the StockBot (project above) listen.
     - "*ConnectionStrings > DefaultConnection*": Set your SQLServer Connection String
+  - Open Package Console
+    - Run *Update-Database* to update SQLServerDatabase
 
 ## Mandatory Features
 - [x] Allow registered users to log in and talk with other users in a chatroom.
