@@ -27,5 +27,5 @@ Created a solution with .NET Core 3.1 Projects
 
 ## Bonus (Optional)
 - [x] Use .NET identity for users authentication
-- Handle messages that are not understood or any exceptions raised within the bot
+- [x] Handle messages that are not understood or any exceptions raised within the bot
 - Build an installer
