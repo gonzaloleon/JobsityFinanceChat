@@ -42,7 +42,11 @@ namespace FinanceChat
             services.AddTransient<Services.IMessageProcessorService, Services.MessageProcessorService>();
             services.AddRazorPages();
             // Add SignalR Service - Service to send / receive messages
-            services.AddSignalR();
+            services.AddSignalR(hubOptions =>
+            {
+                hubOptions.KeepAliveInterval = System.TimeSpan.FromMinutes(3);
+                hubOptions.ClientTimeoutInterval = System.TimeSpan.FromMinutes(6);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

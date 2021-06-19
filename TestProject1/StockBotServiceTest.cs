@@ -20,9 +20,9 @@ namespace TestProject1
         {
             var result = _stockController.Get("stock_stock");
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ActionResult<FinanceCommon.Models.StockModel>>(result);
+            Assert.IsAssignableFrom<ActionResult<FinanceCommon.Models.StockRequestResponse>>(result);
             var okResult = (OkObjectResult)result.Result;
-            Assert.IsType<FinanceCommon.Models.StockModel>(okResult.Value);
+            Assert.IsType<FinanceCommon.Models.StockRequestResponse>(okResult.Value);
             var def = new FinanceCommon.Models.StockModel()
             {
                 Close = default,
@@ -32,10 +32,14 @@ namespace TestProject1
                 Open = default,
                 Symbol = "stock_stock",
                 Time = default,
-                Volume = default
+                Volume = default,
+                NotListed = true,
             };
-            var okResultParsed = (FinanceCommon.Models.StockModel)okResult.Value;
-            okResultParsed.Should().BeEquivalentTo(def);
+            var okResultParsed = ((FinanceCommon.Models.StockRequestResponse)okResult.Value);
+            Assert.True(okResultParsed.Ok);
+            Assert.True(okResultParsed.StockInfo.NotListed);
+            Assert.Equal("Stock Code stock_stock is not listed.", okResultParsed.ErrorMessage);
+            okResultParsed.StockInfo.Should().BeEquivalentTo(def);
         }
 
         [Fact]
@@ -43,9 +47,9 @@ namespace TestProject1
         {
             var result = _stockController.Get("mocked1");
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<ActionResult<FinanceCommon.Models.StockModel>>(result);
+            Assert.IsAssignableFrom<ActionResult<FinanceCommon.Models.StockRequestResponse>>(result);
             var okResult = (OkObjectResult)result.Result;
-            Assert.IsType<FinanceCommon.Models.StockModel>(okResult.Value);
+            Assert.IsType<FinanceCommon.Models.StockRequestResponse>(okResult.Value);
             var def = new FinanceCommon.Models.StockModel()
             {
                 Close = default,
@@ -55,10 +59,12 @@ namespace TestProject1
                 Open = default,
                 Symbol = "mocked1",
                 Time = default,
-                Volume = default
+                Volume = default,
+                NotListed = false,
             };
-            var okResultParsed = (FinanceCommon.Models.StockModel)okResult.Value;
-            okResultParsed.Should().NotBeEquivalentTo(def);
+            var okResultParsed = (FinanceCommon.Models.StockRequestResponse)okResult.Value;
+            Assert.False(okResultParsed.StockInfo.NotListed);
+            okResultParsed.StockInfo.Should().NotBeEquivalentTo(def);
         }
     }
 }

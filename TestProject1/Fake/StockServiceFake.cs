@@ -16,7 +16,7 @@ namespace TestProject1.Fake
             Open = 99, Symbol = "mocked1", Time = "11:59:05", Volume = 1321323 }
             };
         }
-        public FinanceCommon.Models.StockModel GetStock(string stock_code)
+        public FinanceCommon.Models.StockRequestResponse GetStock(string stock_code)
         {
             var def = new FinanceCommon.Models.StockModel()
             {
@@ -27,9 +27,16 @@ namespace TestProject1.Fake
                 Open = default,
                 Symbol = stock_code,
                 Time = default,
-                Volume = default
+                Volume = default,
+                NotListed = true,
             };
-            return _mockedStocks.Any(r => r.Symbol == stock_code) ? _mockedStocks.First(r=>r.Symbol == stock_code) : def;
+            return new FinanceCommon.Models.StockRequestResponse()
+            {
+                Ok = true,
+                StockInfo = _mockedStocks.Any(r => r.Symbol == stock_code) ? _mockedStocks.First(r => r.Symbol == stock_code) :
+                    def,
+                ErrorMessage = !_mockedStocks.Any(r => r.Symbol == stock_code) ? $"Stock Code {stock_code} is not listed." : "",
+            };
         }
     }
 }

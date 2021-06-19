@@ -14,7 +14,7 @@ namespace StockBot.Controllers
             _stockService = stockService;
         }
         [HttpGet]
-        public ActionResult<FinanceCommon.Models.StockModel> Get(string stock_code )
+        public ActionResult<FinanceCommon.Models.StockRequestResponse> Get(string stock_code )
         {
             try
             {

@@ -1,7 +1,11 @@
 ﻿"use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/Chat")
+    .withAutomaticReconnect()
+    .build();
 
+connection.keepAliveIntervalInMilliseconds = 1000 * 60 * 3; // Three minutes
+connection.serverTimeoutInMilliseconds = 1000 * 60 * 6; // Six minutes
 //Disable send button until connection is established  
 connection.on("ReceiveMessage", function (user, message) {
     var dt = new Date();

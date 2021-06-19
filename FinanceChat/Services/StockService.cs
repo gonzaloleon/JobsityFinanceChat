@@ -7,7 +7,7 @@ namespace FinanceChat.Services
 {
     public interface IStockService
     {
-        FinanceCommon.Models.StockModel RequestStockInfo(string stock_code);
+        FinanceCommon.Models.StockRequestResponse RequestStockInfo(string stock_code);
     }
     public class StockService : IStockService
     {
@@ -25,7 +25,7 @@ namespace FinanceChat.Services
             }
         }
 
-        public FinanceCommon.Models.StockModel RequestStockInfo(string stock_code)
+        public FinanceCommon.Models.StockRequestResponse RequestStockInfo(string stock_code)
         {
             try
             {
@@ -34,16 +34,26 @@ namespace FinanceChat.Services
                 {
                     string serviceResponse = content.ReadAsStringAsync().Result;
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                        return null;
-
-                    var stock = JsonConvert.DeserializeObject<FinanceCommon.Models.StockModel>(serviceResponse);
-                    return stock;
+                    {
+                        return new FinanceCommon.Models.StockRequestResponse()
+                        {
+                            Ok = false,
+                            ErrorMessage = "API Server response error.",
+                            StockInfo = null,
+                        };
+                    }
+                    else
+                    {
+                        var stock = JsonConvert.DeserializeObject<FinanceCommon.Models.StockRequestResponse>(serviceResponse);
+                        return stock;
+                    }
                 }
             }
-            catch(Exception ex)
+            catch
             {
-                Console.WriteLine(ex);
-                return null;
+                return new FinanceCommon.Models.StockRequestResponse() {
+                    Ok = false, ErrorMessage = "API request error.", StockInfo = null,
+                };
             }
         }
     }
