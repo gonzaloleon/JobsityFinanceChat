@@ -30,3 +30,4 @@ Created a solution with .NET Core 3.1 Projects
 - [x] Use .NET identity for users authentication
 - [x] Handle messages that are not understood or any exceptions raised within the bot
 - Build an installer
+  - Partial: sql script for database structure
