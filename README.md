@@ -16,6 +16,7 @@ Created a solution with .NET Core 3.1 Projects
     - "*ConnectionStrings > DefaultConnection*": Set your SQLServer Connection String
   - Open Package Console
     - Run *Update-Database* to update SQLServerDatabase
+      - As an alternative you could run this [sql script](SQLServer/0f2dch3d.sql) in your own database
 
 ## Mandatory Features
 - [x] Allow registered users to log in and talk with other users in a chatroom
