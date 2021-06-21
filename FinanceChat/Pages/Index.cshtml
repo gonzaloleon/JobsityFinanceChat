@@ -23,7 +23,7 @@
                 <hr />
             </div>
         </div><div class="row">
-            <div class="col-6">
+            <div class="col-6 chatmessages">
                 <ul id="ulmessages">
                     @if (Model.messages != null)
                     {
@@ -82,4 +82,8 @@
 else
 {
     <div class="container">To Chat you must be logged-in</div>
+    <ul>
+        <li><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    </ul>
 }
