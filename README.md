@@ -31,3 +31,6 @@ Created a solution with .NET Core 3.1 Projects
 - [x] Handle messages that are not understood or any exceptions raised within the bot
 - Build an installer
   - Partial: sql script for database structure
+
+## Extra
+- [x] Add Docker compatibility, in this [branch](https://github.com/gonzaloleon/JobsityFinanceChat/tree/feat/add-docker-compatibility).
