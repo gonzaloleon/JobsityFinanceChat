@@ -2,12 +2,13 @@
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace FinanceChat.Services
 {
     public interface IStockService
     {
-        FinanceCommon.Models.StockRequestResponse RequestStockInfo(string stock_code);
+        Task<FinanceCommon.Models.StockRequestResponse> RequestStockInfoAsync(string stock_code);
     }
     public class StockService : IStockService
     {
@@ -25,14 +26,14 @@ namespace FinanceChat.Services
             }
         }
 
-        public FinanceCommon.Models.StockRequestResponse RequestStockInfo(string stock_code)
+        public async Task<FinanceCommon.Models.StockRequestResponse> RequestStockInfoAsync(string stock_code)
         {
             try
             {
-                using (HttpResponseMessage response = _httpClient.GetAsync($"{_stockBotServiceAPIUrl}?stock_code={stock_code}").Result)
+                using (HttpResponseMessage response = await _httpClient.GetAsync($"{_stockBotServiceAPIUrl}?stock_code={stock_code}"))
                 using (HttpContent content = response.Content)
                 {
-                    string serviceResponse = content.ReadAsStringAsync().Result;
+                    string serviceResponse = await content.ReadAsStringAsync();
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                     {
                         return new FinanceCommon.Models.StockRequestResponse()

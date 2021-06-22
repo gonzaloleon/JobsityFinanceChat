@@ -4,7 +4,7 @@ namespace FinanceChat.Services
 {
     public interface IMessageProcessorService
     {
-        Task<Models.MessageProcessorResult> ProcessMessage(Models.Message message);
+        Task<Models.MessageProcessorResult> ProcessMessageAsync(Models.Message message);
     }
     public class MessageProcessorService : IMessageProcessorService
     {
@@ -16,7 +16,7 @@ namespace FinanceChat.Services
             _stockService = stockService;
         }
 
-        public async Task<Models.MessageProcessorResult> ProcessMessage(Models.Message message)
+        public async Task<Models.MessageProcessorResult> ProcessMessageAsync(Models.Message message)
         {
             if (message.Text.StartsWith("/stock="))
             {
@@ -24,7 +24,7 @@ namespace FinanceChat.Services
                 var stock_code = mTextSplitted[1];
                 if (!string.IsNullOrEmpty(stock_code))
                 {
-                    var stock_info = _stockService.RequestStockInfo(stock_code);
+                    var stock_info = await _stockService.RequestStockInfoAsync(stock_code);
                     if (stock_info.Ok)
                     {
                         return new Models.MessageProcessorResult()

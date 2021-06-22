@@ -51,7 +51,7 @@ namespace FinanceChat.Pages
                 Sender = sender,
                 SenderID = sender.Id,
             };
-            var mpresult = await _messageProcessorService.ProcessMessage(msg);
+            var mpresult = await _messageProcessorService.ProcessMessageAsync(msg);
             if (mpresult.Ok)
             {
                 //await new Hubs.Chat().SendMessage(msg.Text);
