@@ -47,33 +47,37 @@
 
             $(function () {
                 $("#sendBtn").click(function () {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Index?handler=SendMessage",
-                        beforeSend: function (xhr) {
-                            $('#loader').show();
-                            $('#sendBtn').prop('disabled', true);
-                            xhr.setRequestHeader("XSRF-TOKEN",
-                                $('input:hidden[name="__RequestVerificationToken"]').val());
-                        },
-                        data: { "messageText": $("#MessageText").val() },
-                        success: function (result) {
-                            console.log(result);
-                            if (!result.ok) {
-                                alert("Error Sending message");
+                    if ($('#MessageText').val().trim() !== '') {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Index?handler=SendMessage",
+                            beforeSend: function (xhr) {
+                                $('#loader').show();
+                                $('#sendBtn').prop('disabled', true);
+                                xhr.setRequestHeader("XSRF-TOKEN",
+                                    $('input:hidden[name="__RequestVerificationToken"]').val());
+                            },
+                            data: { "messageText": $("#MessageText").val() },
+                            success: function (result) {
+                                console.log(result);
+                                if (!result.ok) {
+                                    alert("Error Sending message");
+                                } else {
+                                    $('#MessageText').val("");
+                                }
+                            },
+                            failure: function (response) {
+                                alert("Failure");
+                            },
+                            error: function (response) {
+                                alert("Error");
+                            },
+                            complete: function () {
+                                $('#loader').hide();
+                                $('#sendBtn').prop('disabled', false);
                             }
-                        },
-                        failure: function (response) {
-                            alert("Failure");
-                        },
-                        error: function (response) {
-                            alert("Error");
-                        },
-                        complete: function () {
-                            $('#loader').hide();
-                            $('#sendBtn').prop('disabled', false);
-                        }
-                    });
+                        });
+                    }
                 });
             });
         </script>
